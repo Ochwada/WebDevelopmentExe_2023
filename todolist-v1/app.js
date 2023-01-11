@@ -20,9 +20,6 @@ let items = [];
 let workItems = [];
 // --------------------
 
-
-
-
 app.get('/', (req, res) => {
 
     //res.sendFile( __dirname + '/index.html');
@@ -50,30 +47,29 @@ app.get('/', (req, res) => {
 
 // --- Post request to add a TO DO ----------->
 app.post("/", (req, res) => {
-
     var item = req.body.newItem;
 
-    items.push(item);
+    if (req.body.list ==="Work"){
+        workItems.push(item);
+    }else{
+        items.push(item);
+        //console.log(item)
+        res.redirect("/")
+    }
 
-    //console.log(item)
-    res.redirect("/")
+    
 
 });
 
 // ------------------------------------------->
 
-app.get("/work", function (req, res) {
+app.get("/work",(req, res)=> {
     res.render("list", {
         listTitle: "Work List",
         newListItems: workItems
     });
 });
 
-app.post("/work", (req, res) => {
-    let item = req.body.newItem;
-    workItems.push(item);
-    res.redirect("/work")
-})
 
 
 // PORT
