@@ -16,7 +16,8 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"))
 // --- Variables --- 
 
-var items = [];
+let items = [];
+let workItems = [];
 // --------------------
 
 
@@ -26,9 +27,7 @@ app.get('/', (req, res) => {
 
     //res.sendFile( __dirname + '/index.html');
     var today = new Date();
-    /* var currentTime = today.getTime();
-    var currentDay = today.getDay(); */
-    //var day = "";
+  
 
     var options = {
         weekday: "long",
@@ -38,46 +37,10 @@ app.get('/', (req, res) => {
     }
     var day = today.toLocaleDateString("en-US", options);
 
-    /*  if (currentDate === 6 || currentDate === 0){
-         //day = "weekend";
-         day = currentDay + ". A Weekend"
-         //res.write("its weekend");
-     }else{
-         day = currentDay + " Day. A Weekday"
-         
-         //res.sendFile(__dirname + '/index.html');
-     } */
-
-    /* 
-        switch(currentDay){
-            case 0:
-                day ="Sunday";
-                break;
-            case 1:
-                day = "Monday";
-                break;
-            case 2:
-                day = "Tuesday";
-                break;
-            case 3:
-                day = "Wednesday";
-                break;
-            case 4:
-                day = "Thursday";
-                break;
-            case 5:
-                day = "Friday";
-                break;
-            case 6:
-                day= "Saturday";
-                break;
-            default:
-                console.log("Error: current day is equal to:" + currentDay);
-        
-        } */
 
     res.render("list", {
-        kindOfDay: day,
+        // kindOfDay: day,
+        listTitle:day,
         newListItems: items,
     });
     //res.render("list", { kindOfDay: day }) // "list" is an ejs file from view directory
@@ -99,7 +62,18 @@ app.post("/", (req, res) => {
 
 // ------------------------------------------->
 
+app.get("/work", function (req, res) {
+    res.render("list", {
+        listTitle: "Work List",
+        newListItems: workItems
+    });
+});
 
+app.post("/work", (req, res) => {
+    let item = req.body.newItem;
+    workItems.push(item);
+    res.redirect("/work")
+})
 
 
 // PORT
