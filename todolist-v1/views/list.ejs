@@ -1,45 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include("header") -%>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>To Do List</title>
-    <link rel="stylesheet" href="css/styles.css" type="text/css" />
-</head>
+<div class="box" id="heading">
+  <h1> <%= listTitle %> </h1>
+</div>
+<div class="box">
+  <% for ( var i=0; i < newListItems.length; i++) { %>
+  <div class="item">
+    <input type="checkbox" />
+    <p><%= newListItems[i] %></p>
+  </div>
 
-<body>
-    <div class="box" id="heading">
+  <% } %>
 
-        <h1> <%= listTitle %>
-        </h1>
-    </div>
-    <div class="box">
-        <% for ( var i=0; i < newListItems.length; i++) { %>
-            <div class="item">
-                <input type="checkbox" />
-                <p>
-                    <%= newListItems[i] %>
-                </p>
-            </div>
+  <form class="item" action="/" method="post">
+    <input
+      type="text"
+      placeholder="New Item"
+      name="newItem"
+      autocomplete="off"
+    />
+    <button type="submit" name="list" value=<%"listTitle" %>>+</button>
+  </form>
+</div>
 
-            <% } %>
-
-                <form class="item" action="/" method="post">
-                    <input type="text" placeholder="New Item" name="newItem" autocomplete="off" />
-                    <button type="submit" name= "list" value=<%= listTitle %> >+</button>
-                </form>
-    </div>
-
-   
-
-    <footer>
-        <p>
-            by
-            <a href="https://www.linkedin.com/in/ochwada-l-66630a36/">@ochwada</a>
-        </p>
-    </footer>
-</body>
-
-</html>
+<%- include("footer") -%>

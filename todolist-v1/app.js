@@ -70,7 +70,9 @@ app.get("/work",(req, res)=> {
     });
 });
 
-
+app.get("/about", (req, res) => {
+    res.render("about");
+})
 
 // PORT
 // http://localhost:3000/
@@ -82,3 +84,4 @@ app.listen(port, () =>
 /* app.listen(process.env.PORT, function () {
     console.log("Server running on Port (pre assigned)")
 });  */
+
