@@ -1,8 +1,11 @@
 
 // ----- packages ---- 
 
+
 const express = require('express');
 const bodyParser = require('body-parser');
+const date = require(__dirname +'/date.js');
+
 
 
 const app = express();
@@ -16,68 +19,19 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"))
 // --- Variables --- 
 
-var items = [];
+let items = [];
+let workItems = [];
 // --------------------
-
-
-
 
 app.get('/', (req, res) => {
 
-    //res.sendFile( __dirname + '/index.html');
-    var today = new Date();
-    /* var currentTime = today.getTime();
-    var currentDay = today.getDay(); */
-    //var day = "";
-
-    var options = {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-    }
-    var day = today.toLocaleDateString("en-US", options);
-
-    /*  if (currentDate === 6 || currentDate === 0){
-         //day = "weekend";
-         day = currentDay + ". A Weekend"
-         //res.write("its weekend");
-     }else{
-         day = currentDay + " Day. A Weekday"
-         
-         //res.sendFile(__dirname + '/index.html');
-     } */
-
-    /* 
-        switch(currentDay){
-            case 0:
-                day ="Sunday";
-                break;
-            case 1:
-                day = "Monday";
-                break;
-            case 2:
-                day = "Tuesday";
-                break;
-            case 3:
-                day = "Wednesday";
-                break;
-            case 4:
-                day = "Thursday";
-                break;
-            case 5:
-                day = "Friday";
-                break;
-            case 6:
-                day= "Saturday";
-                break;
-            default:
-                console.log("Error: current day is equal to:" + currentDay);
-        
-        } */
+    let day = date();
+    
+  
 
     res.render("list", {
-        kindOfDay: day,
+        // kindOfDay: day,
+        listTitle:day,
         newListItems: items,
     });
     //res.render("list", { kindOfDay: day }) // "list" is an ejs file from view directory
@@ -87,20 +41,32 @@ app.get('/', (req, res) => {
 
 // --- Post request to add a TO DO ----------->
 app.post("/", (req, res) => {
-
     var item = req.body.newItem;
 
-    items.push(item);
+    if (req.body.list ==="Work"){
+        workItems.push(item);
+    }else{
+        items.push(item);
+        //console.log(item)
+        res.redirect("/")
+    }
 
-    //console.log(item)
-    res.redirect("/")
+    
 
 });
 
 // ------------------------------------------->
 
+app.get("/work",(req, res)=> {
+    res.render("list", {
+        listTitle: "Work List",
+        newListItems: workItems
+    });
+});
 
-
+app.get("/about", (req, res) => {
+    res.render("about");
+})
 
 // PORT
 // http://localhost:3000/
@@ -112,3 +78,4 @@ app.listen(port, () =>
 /* app.listen(process.env.PORT, function () {
     console.log("Server running on Port (pre assigned)")
 });  */
+
