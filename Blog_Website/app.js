@@ -66,7 +66,7 @@ app.get("/posts/:postName", (req, res) => {
     posts.forEach((post) => {
         let storedTitle = _.startCase(post.title);
 
-        // -----each blog -----
+        // -----open each blog -----
 
         if (urlBlogName === storedTitle) {
             res.render("post", {
