@@ -6,8 +6,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const date = require(__dirname +'/date.js');
 
-
-
 const app = express();
 
 
@@ -25,7 +23,7 @@ let workItems = [];
 
 app.get('/', (req, res) => {
 
-    let day = date();
+    let day = date.getDate();
     
   
 
@@ -50,8 +48,6 @@ app.post("/", (req, res) => {
         //console.log(item)
         res.redirect("/")
     }
-
-    
 
 });
 
