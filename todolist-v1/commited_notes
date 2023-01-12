@@ -5,7 +5,7 @@
 
             <%}%> -->
 
-
+//res.sendFile( __dirname + '/index.html');
   /* var currentTime = today.getTime();
     var currentDay = today.getDay(); */
     //var day = "";

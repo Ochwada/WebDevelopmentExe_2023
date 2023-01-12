@@ -1,8 +1,11 @@
 
 // ----- packages ---- 
 
+
 const express = require('express');
 const bodyParser = require('body-parser');
+const date = require(__dirname +'/date.js');
+
 
 
 const app = express();
@@ -22,18 +25,9 @@ let workItems = [];
 
 app.get('/', (req, res) => {
 
-    //res.sendFile( __dirname + '/index.html');
-    var today = new Date();
+    let day = date();
+    
   
-
-    var options = {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-    }
-    var day = today.toLocaleDateString("en-US", options);
-
 
     res.render("list", {
         // kindOfDay: day,
