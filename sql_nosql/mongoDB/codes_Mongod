@@ -1,0 +1,49 @@
+use shopDB
+'switched to db shopDB'
+db.products.find({_id: 1}, {name: 1})
+{
+  _id: 1,
+  name: 'pen'
+}
+db.products.find({_id: 1}, {name: 1, _id: 0})
+{
+  name: 'pen'
+}
+db.products.updateOne({_id: 1}, {$set:{stock:32}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.products.insertOne({_id: 3, name: "book", price: 0.99})
+{
+  acknowledged: true,
+  insertedId: 3
+}
+db.products.deleteOne({_id:3})
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+db.products.insertOne({_id: 3, name: "book", price: 0.99})
+{
+  acknowledged: true,
+  insertedId: 3
+}
+db.products.insert({_id: 4, name: "rubber", price: 1.30, stock: 42, reviews: [{ authorName: "linda", rating: 5, review: "Best rubber ever!"}]})
+'DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.'
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': 4
+  }
+}
+db.products.insert({_id: 5, name: "ruler", price: 1.10, stock: 100, reviews: [{ authorName: "shammah", rating: 1, review: "The ruler is too flexible!"}, {authorName:"linda", rating: 2.5, review:"hard to break but can not draw a straight line, its too flexible"}]})
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': 5
+  }
+}
