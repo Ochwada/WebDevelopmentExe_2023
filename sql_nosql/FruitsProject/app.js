@@ -99,13 +99,13 @@ Fruit.updateOne(
 Fruit.deleteOne({
     _id: "63c167d93b394047d9b444d2"
 },
-(err)=>{
-    if(err){
-        console.log(err);
-    }else{
-        console.log("Successfully deleted entry")
+    (err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Successfully deleted entry")
+        }
     }
-}
 );
 
 // -----------------------------------------------------------------
@@ -123,3 +123,28 @@ const person = new Person({
 });
 
 //person.save();
+
+/* Person.updateOne(
+    { _id: "63c1701e47f7985f8d82877f"},
+    {age: 35},
+
+    (err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Successfully updated your entry")
+        }
+    }
+    ) */
+
+Person.deleteMany({
+    age: 37
+},
+    (err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Successfully deleted entries")
+        }
+    }
+);
