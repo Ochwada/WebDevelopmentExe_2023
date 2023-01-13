@@ -4,21 +4,18 @@
   <h1> <%= listTitle %> </h1>
 </div>
 <div class="box">
-  <% for ( var i=0; i < newListItems.length; i++) { %>
+
+
+   <% newListItems.forEach((item) =>{%>
   <div class="item">
     <input type="checkbox" />
-    <p><%= newListItems[i] %></p>
+    <p><%=item.name %></p>
   </div>
+   <% })%>
 
-  <% } %>
 
   <form class="item" action="/" method="post">
-    <input
-      type="text"
-      placeholder="New Item"
-      name="newItem"
-      autocomplete="off"
-    />
+    <input type="text" placeholder="New Item" name="newItem" autocomplete="off" />
     <button type="submit" name="list" value=<%"listTitle" %>>+</button>
   </form>
 </div>
