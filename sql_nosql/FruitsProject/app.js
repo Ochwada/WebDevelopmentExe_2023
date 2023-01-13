@@ -7,8 +7,8 @@ const mongoose = require('mongoose');
 // ---- Connection URL -----
 mongoose.set('strictQuery', true);
 
-mongoose.connect('mongodb://127.0.0.1:27017/fruitsDB')
-    .then(() => console.log('Connected to server!'));
+mongoose.connect('mongodb://127.0.0.1:27017/fruitsDB');
+// .then(() => console.log('Connected to server!'));
 
 
 const fruitSchema = new mongoose.Schema({
@@ -25,6 +25,36 @@ const fruit = new Fruit({
     review: "Okay for a fruit!"
 });
 
+// ---------fruits -------
+const kiwi = new Fruit({
+    name: "Kiwi",
+    rating: 3,
+    review: "Sour!"
+});
+
+const orange = new Fruit({
+    name: "Orange",
+    score: 6,
+    review: "Abit sour"
+});
+
+const Banana = new Fruit({
+    name: "Banana",
+    score: 9,
+    review: "Very Great"
+})
+
+// -----------------------
+// insert data 
+
+Fruit.insertMany([kiwi, orange, Banana], (err)=>{
+if(err) {
+    console.log("Error occured");
+}else{
+    console.log("information updated in the database")
+}
+});
+
 //fruit.save();
 
 // new schema
@@ -38,6 +68,6 @@ const Person = mongoose.model("Person", personSchema);
 const person = new Person({
     name: "John",
     age: 37
-}) ;
+});
 
-person.save();
+//person.save();
