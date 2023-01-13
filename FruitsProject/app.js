@@ -18,7 +18,8 @@ client.connect(function (err) {
 
     const db = client.db(dbName);
 
-    insertDocument(db, ()=>{  // from the below function
+    //insertDocument(db, () => {  // from the below function add documents
+    findDocuments(db, () => {
         client.close();
     })
 });
@@ -33,7 +34,7 @@ const insertDocument = (db, callback) => {
     collection.insertMany([
         {
             name: "Apple",
-            score : 8,
+            score: 8,
             review: "Great"
         },
         {
@@ -53,6 +54,21 @@ const insertDocument = (db, callback) => {
             //assert.equal(3, result.ops.length);
             console.log("inserted 3 documents into the collection");
 
-            callback(result);
+            callback(err, result);
         })
+}
+
+// ----- find all documents --------------------------------
+
+const findDocuments = (db, callback) => {
+    // Get the documents collection
+    const collection = db.collection('fruits');
+
+    // Find some documents
+    collection.find({}).toArray((err, fruits) => {
+        assert.equal(err, null),
+            console.log("Found the records");
+        console.log(fruits);
+        callback(fruits);
+    });
 }
