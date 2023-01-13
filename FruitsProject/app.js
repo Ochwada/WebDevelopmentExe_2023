@@ -1,22 +1,58 @@
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 
+// Connection URL
+//const url = 'mongodb://localhost:27017/';
+const url = "mongodb://0.0.0.0:27017/";
 
-// connection URL
-const url = "mongodb://localhost:27017";
-
-//Database name
-const dbName = "fruitsDB";
+// Database Name
+const dbName = 'fruitDB';
 
 // Create a new MongoClient
 const client = new MongoClient(url);
-
-// Use connect method to connect to the server
-client.connect((err) => {
+/// -----------------------------------------------------------
+// Use connect method to connect to the Server
+client.connect(function (err) {
     assert.equal(null, err);
     console.log("Connection to server is successful");
 
     const db = client.db(dbName);
 
-    client.close();
+    insertDocument(db, ()=>{  // from the below function
+        client.close();
+    })
 });
+/// -----------------------------------------------------------
+
+const insertDocument = (db, callback) => {
+
+    // Get the documents collections
+    const collection = db.collection('fruits');
+
+    //insert some documents
+    collection.insertMany([
+        {
+            name: "Apple",
+            score : 8,
+            review: "Great"
+        },
+        {
+            name: "Orange",
+            score: 6,
+            review: "Abit sour"
+        },
+        {
+            name: "Banana",
+            score: 9,
+            review: "Very Great"
+        }
+    ],
+        (err, result) => {
+            assert.equal(err, null); // validate to show no error when documents are inserted
+            //assert.equal(3, result.result.n); // insure there are 3 documents
+            //assert.equal(3, result.ops.length);
+            console.log("inserted 3 documents into the collection");
+
+            callback(result);
+        })
+}
