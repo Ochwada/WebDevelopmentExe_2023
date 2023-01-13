@@ -12,8 +12,15 @@ mongoose.connect('mongodb://127.0.0.1:27017/fruitsDB');
 
 
 const fruitSchema = new mongoose.Schema({
-    name: String,
-    rating: Number,
+    name: {
+        type: String,
+        required: [true, "please add the fruit name"]
+    },
+    rating: {
+        type: Number,
+        min: 1,
+        max: 10,
+    },
     review: String
 });
 
@@ -58,16 +65,48 @@ const Banana = new Fruit({
 //fruit.save();
 // ----------------------- Find Function ----------------------------
 Fruit.find((err, fruits) => {
-if (err) {
-    console.log(err);
-}else{
-    //console.log(fruits);
+    if (err) {
+        console.log(err);
+    } else {
+        //console.log(fruits);
+        mongoose.connection.close();
 
-    fruits.forEach((fruit) => { //just show the name
-        console.log(fruit.name)
-    });
-}
+        fruits.forEach((fruit) => { //just show the name
+            console.log(fruit.name)
+        });
+    }
 })
+
+// ----------------------- Update database----------------------------
+Fruit.updateOne(
+    {
+        _id: "63c167d93b394047d9b444d3"
+    },
+    { // what's being updated
+        name: "Peach",
+        rating: 9
+    },
+    (err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Successfully updated your entry")
+        }
+    }
+);
+// ----------------------- Delete an Entry/ document-----------------
+
+Fruit.deleteOne({
+    _id: "63c167d93b394047d9b444d2"
+},
+(err)=>{
+    if(err){
+        console.log(err);
+    }else{
+        console.log("Successfully deleted entry")
+    }
+}
+);
 
 // -----------------------------------------------------------------
 // new schema
