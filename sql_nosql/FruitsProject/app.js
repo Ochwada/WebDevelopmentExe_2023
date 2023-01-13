@@ -47,16 +47,29 @@ const Banana = new Fruit({
 // -----------------------
 // insert data 
 
-Fruit.insertMany([kiwi, orange, Banana], (err)=>{
-if(err) {
-    console.log("Error occured");
-}else{
-    console.log("information updated in the database")
-}
-});
+/* Fruit.insertMany([kiwi, orange, Banana], (err) => {
+    if (err) {
+        console.log("Error occured");
+    } else {
+        console.log("information updated in the database")
+    }
+}); */
 
 //fruit.save();
+// ----------------------- Find Function ----------------------------
+Fruit.find((err, fruits) => {
+if (err) {
+    console.log(err);
+}else{
+    //console.log(fruits);
 
+    fruits.forEach((fruit) => { //just show the name
+        console.log(fruit.name)
+    });
+}
+})
+
+// -----------------------------------------------------------------
 // new schema
 
 const personSchema = new mongoose.Schema({
