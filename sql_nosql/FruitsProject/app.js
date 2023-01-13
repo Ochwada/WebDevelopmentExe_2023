@@ -141,7 +141,7 @@ const linda = new Person({
 } )
 //linda.save();
 
-Person.updateOne({
+/* Person.updateOne({
     name: "John"
 },
 {favoriteFruit:pawpaw},
@@ -152,7 +152,7 @@ Person.updateOne({
         console.log("entry updated successfully")
     }
 }
-)
+) */
 /* Person.updateOne(
     { _id: "63c1701e47f7985f8d82877f"},
     {age: 37},
