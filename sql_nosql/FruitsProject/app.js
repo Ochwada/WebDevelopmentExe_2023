@@ -50,7 +50,18 @@ const Banana = new Fruit({
     score: 9,
     review: "Very Great"
 })
+const pineapple = new Fruit({
+    name: "Pineapple",
+    score: 9,
+    review: "Really great fruit"
+});
+const pawpaw = new Fruit({
+    name:"pawpaw",
+    score: 10,
+    review: " Yammy with no faults"
+})
 
+//pawpaw.save();
 // -----------------------
 // insert data 
 
@@ -78,7 +89,7 @@ Fruit.find((err, fruits) => {
 })
 
 // ----------------------- Update database----------------------------
-Fruit.updateOne(
+/* Fruit.updateOne(
     {
         _id: "63c167d93b394047d9b444d3"
     },
@@ -93,10 +104,10 @@ Fruit.updateOne(
             console.log("Successfully updated your entry")
         }
     }
-);
+); */
 // ----------------------- Delete an Entry/ document-----------------
 
-Fruit.deleteOne({
+/* Fruit.deleteOne({
     _id: "63c167d93b394047d9b444d2"
 },
     (err) => {
@@ -106,14 +117,15 @@ Fruit.deleteOne({
             console.log("Successfully deleted entry")
         }
     }
-);
+); */
 
 // -----------------------------------------------------------------
 // new schema
 
 const personSchema = new mongoose.Schema({
     name: String,
-    age: Number
+    age: Number,
+    favoriteFruit: fruitSchema
 });
 
 const Person = mongoose.model("Person", personSchema);
@@ -122,11 +134,28 @@ const person = new Person({
     age: 37
 });
 
-//person.save();
+const linda = new Person({
+    name: "Linda",
+    age: 20,
+    favoriteFruit: pineapple
+} )
+//linda.save();
 
+Person.updateOne({
+    name: "John"
+},
+{favoriteFruit:pawpaw},
+(err) => {
+    if (err){
+        console.log(err);
+    }else{
+        console.log("entry updated successfully")
+    }
+}
+)
 /* Person.updateOne(
     { _id: "63c1701e47f7985f8d82877f"},
-    {age: 35},
+    {age: 37},
 
     (err) => {
         if (err) {
@@ -135,9 +164,9 @@ const person = new Person({
             console.log("Successfully updated your entry")
         }
     }
-    ) */
+    )  */
 
-Person.deleteMany({
+/* Person.deleteMany({
     age: 37
 },
     (err) => {
@@ -147,4 +176,7 @@ Person.deleteMany({
             console.log("Successfully deleted entries")
         }
     }
-);
+); */
+
+// ----- Establishing connections ----
+
