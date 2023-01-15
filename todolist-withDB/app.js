@@ -28,7 +28,6 @@ const itemsSchema = new mongoose.Schema({
 });
 
 // ---------Mongo model -------- 
-
 const Item = mongoose.model("Item", itemsSchema);
 
 
@@ -51,7 +50,7 @@ Item.find((err, items) => {
         console.log(err);
     } else {
         items.forEach((item) => {
-            console.log(item.name)
+            //console.log(item.name)
         })
     }
 });
@@ -102,7 +101,19 @@ app.post("/", (req, res) => {
 
 // Deleting Items from the todolist
 
+app.post("/delete", (req, res) => {
+let checkedItemId = req.body.checkbox;
 
+
+Item.findByIdAndRemove(checkedItemId, (err)=> {
+    if(err) {
+        console.log(err);
+    }else {
+        console.log("successfully removed");
+        res.redirect("/");
+    }
+});
+});
 
 // ------------------------------------------->
 
