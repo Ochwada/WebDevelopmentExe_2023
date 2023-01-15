@@ -1,4 +1,3 @@
-
 // ----- packages ---- 
 
 
@@ -7,7 +6,6 @@ const bodyParser = require('body-parser');
 const _ = require('lodash');
 const mongoose = require('mongoose');
 
-//const date = require(__dirname + '/date.js');
 const app = express();
 
 
@@ -46,14 +44,7 @@ const wash = new Item({
 });
 
 const defaultItems = [cook, clean, wash]
-/*
-Item.insertMany(defaultItems, (err)=>{
-    if(err){
-        console.log(err);
-    }else{
-        console.log("successful inputs")
-    }
-}) */
+
 
 Item.find((err, items) => {
     if (err) {
@@ -63,38 +54,49 @@ Item.find((err, items) => {
             console.log(item.name)
         })
     }
-}
-);
+});
 // --------------------
 
 app.get('/', (req, res) => {
 
-// check if  item collection is empty
+    // check if  item collection is empty
 
     Item.find({}, (err, foundItems) => {
-        //console.log(foundItems);
-        res.render("list", {
-            // kindOfDay: day,
-            listTitle: "Today",
-            newListItems: foundItems
-        });
+        if (foundItems.length === 0) {
+
+            Item.insertMany(defaultItems, (err) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("successful inputs")
+                }
+            });
+            res.redirect("/");
+        } else {
+            res.render("list", {
+                listTitle: "Today",
+                newListItems: foundItems
+            });
+
+        }
+
     })
 
-    
 });
 
 
 // --- Post request to add a TO DO ----------->
 app.post("/", (req, res) => {
-    var item = req.body.newItem;
+    let itemName = req.body.newItem;
 
-    if (req.body.list === "Work") {
-        workItems.push(item);
-    } else {
-        items.push(item);
-        //console.log(item)
-        res.redirect("/")
-    }
+    let item = new Item({ // Creating new document
+        name: itemName
+    });
+
+    item.save();
+    
+    res.redirect("/");
+
 
 });
 
@@ -117,8 +119,3 @@ const port = 3000;
 
 app.listen(port, () =>
     console.log('Server started on port ' + port));
-
-/* app.listen(process.env.PORT, function () {
-    console.log("Server running on Port (pre assigned)")
-});  */
-
