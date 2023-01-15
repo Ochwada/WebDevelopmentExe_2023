@@ -94,11 +94,15 @@ app.post("/", (req, res) => {
     });
 
     item.save();
-    
+
     res.redirect("/");
 
 
 });
+
+// Deleting Items from the todolist
+
+
 
 // ------------------------------------------->
 
