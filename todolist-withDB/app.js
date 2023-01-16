@@ -27,8 +27,15 @@ const itemsSchema = new mongoose.Schema({
     name: String
 });
 
+const listSchema = new mongoose.Schema({
+    name: String,
+    items: [itemsSchema]
+});
+
 // ---------Mongo model -------- 
 const Item = mongoose.model("Item", itemsSchema);
+
+const List = mongoose.model("List", listSchema);
 
 
 // add documents ---
@@ -44,6 +51,29 @@ const wash = new Item({
 
 const defaultItems = [cook, clean, wash]
 
+// rendering other pages
+
+app.get("/:customListName", (req, res) => {
+    const customListName = req.params.customListName;
+    List.findOne({ name: customListName }, (err, foundList) => {
+        if (!err) {
+            if (!foundList) {
+                const list = new List({
+                    name: customListName,
+                    item: defaultItems
+
+                });
+
+                list.save();
+                res.render("/" + customListName);
+            } else {
+                res.render("list", { listTitle: foundList.name, newListItems: foundList.items })
+            }
+        }
+    });
+
+
+});
 
 Item.find((err, items) => {
     if (err) {
@@ -86,36 +116,43 @@ app.get('/', (req, res) => {
 
 // --- Post request to add a TO DO ----------->
 app.post("/", (req, res) => {
+
     let itemName = req.body.newItem;
+    let listName = req.body.list;
 
     let item = new Item({ // Creating new document
         name: itemName
     });
 
-    item.save();
-
-    res.redirect("/");
-
-
+    if (listName === "Today") {
+        item.save();
+        res.redirect("/");
+    } else {
+        List.findOne({ name: listName }, (err, foundList) => {
+            foundList.items.push(item);
+            foundList.save();
+            res.redirect("/" + listName);
+        });
+    }
 });
 
 // Deleting Items from the todolist
 
 app.post("/delete", (req, res) => {
-let checkedItemId = req.body.checkbox;
+    let checkedItemId = req.body.checkbox;
 
 
-Item.findByIdAndRemove(checkedItemId, (err)=> {
-    if(err) {
-        console.log(err);
-    }else {
-        console.log("successfully removed");
-        res.redirect("/");
-    }
+    Item.findByIdAndRemove(checkedItemId, (err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("successfully removed");
+            res.redirect("/");
+        }
+    });
 });
-});
 
-// ------------------------------------------->
+// -------------------Routing to pages------------------------>
 
 app.get("/work", (req, res) => {
     res.render("list", {
@@ -127,6 +164,7 @@ app.get("/work", (req, res) => {
 app.get("/about", (req, res) => {
     res.render("about");
 })
+
 
 // PORT
 // http://localhost:3000/
