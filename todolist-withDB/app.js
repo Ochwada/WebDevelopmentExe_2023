@@ -54,7 +54,9 @@ const defaultItems = [cook, clean, wash]
 // rendering other pages
 
 app.get("/:customListName", (req, res) => {
-    const customListName = req.params.customListName;
+    const customListName = _.capitalize(req.params.customListName);
+
+
     List.findOne({ name: customListName }, (err, foundList) => {
         if (!err) {
             if (!foundList) {
