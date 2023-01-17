@@ -139,17 +139,31 @@ app.post("/", (req, res) => {
 // Deleting Items from the todolist
 
 app.post("/delete", (req, res) => {
-    let checkedItemId = req.body.checkbox;
+    const checkedItemId = req.body.checkbox;
+    const listName = req.body.listName;
+
+    if(listName === "Today"){
+        Item.findByIdAndRemove(checkedItemId, (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("successfully removed");
+                res.redirect("/");
+            }
+        });
+    }else{
+        List.findOneAndUpdate(
+            {name: listName},
+            {$pull:{items:{_id: checkedItemId}}}, 
+            (err, foundList) => {
+                if(!err) {
+                    res.redirect("/" + listName);
+                }
+            })
+    }
 
 
-    Item.findByIdAndRemove(checkedItemId, (err) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log("successfully removed");
-            res.redirect("/");
-        }
-    });
+    
 });
 
 // -------------------Routing to pages------------------------>
