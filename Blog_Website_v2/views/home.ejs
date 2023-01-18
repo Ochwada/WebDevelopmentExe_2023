@@ -9,10 +9,10 @@
         <% posts.forEach( (post) => { %>
         <h2><%= post.title %></h2>
         <p>
-            <%= post.content.substr(0, 150) + " ...";%> 
-            <a href="/posts/<%=post.title%> "> Read More </a>
+            <%= post.content.substr(0, 150) + " ..."%> 
+            <a href="/posts/<%=post._id%> "> Read More </a>
         </p>
-        <% }); %>
+        <% }) %>
     </div>
 </div>
 
