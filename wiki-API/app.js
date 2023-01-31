@@ -44,6 +44,25 @@ app.get('/articles', (req, res) => {
     });
 });
 
+// Grab data set through  -- Used postman
+app.post('/articles', (req, res) => {
+    console.log( );
+    console.log( );
+
+    const newArticle =  new Article({
+        title: req.body.title,
+        content: req.body.content
+    });
+
+    newArticle.save((err) => {
+        if(!err){
+            res.send("Successfully added a new article")
+        }else{
+            res.send(err);
+        }
+    });
+});
+
 // ------------------------HOST--------------------------------------
 // Host port 
 const port = process.env.PORT || 3000;
