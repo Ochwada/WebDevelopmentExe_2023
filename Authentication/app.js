@@ -34,7 +34,12 @@ const userSchema = new Schema({
 // Encription
 // convient method
 const secret = "thisisthesecretcode"; 
-userSchema.plugin(encrypt, {secret: secret});
+userSchema.plugin(encrypt, 
+    {
+        secret: secret, 
+        encryptedFields: ["password"]
+    }
+    );
 
 const User = new mongoose.model("User", userSchema); // after encription
 // --- Routing to pages ---- 
