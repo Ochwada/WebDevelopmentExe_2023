@@ -32,50 +32,47 @@ const Article = mongoose.model("Article", articleSchema);
 
 
 // ------------------------DISPLAY i.e Get route that fetches all the Articles --------------------------------------
-// Display  --> Server Code
-app.get('/articles', (req, res) => {
-    Article.find((err, foundArticles) => {
-        if (!err) {
-            res.send(foundArticles);
-        } else {
-            res.send(err);
-        }
 
-    });
-});
 
-// Grab data set through  -- Used postman
-app.post('/articles', (req, res) => {
-    console.log();
-    console.log();
+app.route("/articles")
+    // --- Display  --> Server Code
+    .get((req, res) => {
+        Article.find((err, foundArticles) => {
+            if (!err) {
+                res.send(foundArticles);
+            } else {
+                res.send(err);
+            }
 
-    const newArticle = new Article({
-        title: req.body.title,
-        content: req.body.content
-    });
+        });
+    })
+    // --- Grab data set through  -- Used postman
+    .post((req, res) => {
+        const newArticle = new Article({
+            title: req.body.title,
+            content: req.body.content
+        });
 
-    newArticle.save((err) => {
-        if (!err) {
-            res.send("Successfully added a new article")
-        } else {
-            res.send(err);
-        }
-    });
-});
+        newArticle.save((err) => {
+            if (!err) {
+                res.send("Successfully added a new article")
+            } else {
+                res.send(err);
+            }
+        });
+    })
+    //  --- Delete request
+    .delete(
+        (req, res) => {
+            Article.deleteMany((err) => {
+                if (!err) {
+                    res.send("Successfully deleted all articles")
+                } else {
+                    res.send(err)
+                }
+            });
+        });
 
-// Delete request
-
-app.delete("/articles", (req, res) => {
-    Article.deleteMany((err) => {
-        if (!err) {
-            res.send("Successfully deleted all articles")
-        } else {
-            res.send(err)
-        }
-    }
-
-    )
-});
 // ------------------------HOST--------------------------------------
 // Host port 
 const port = process.env.PORT || 3000;
