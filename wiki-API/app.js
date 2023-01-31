@@ -31,9 +31,7 @@ const articleSchema = {
 const Article = mongoose.model("Article", articleSchema);
 
 
-// ------------------------DISPLAY i.e Get route that fetches all the Articles --------------------------------------
-
-
+// ------------------------DISPLAY i.e Get route that fetches ALL the Articles --------------------------------------
 app.route("/articles")
     // --- Display  --> Server Code
     .get((req, res) => {
@@ -72,6 +70,21 @@ app.route("/articles")
                 }
             });
         });
+// ------------------------DISPLAY i.e Get route that fetches SPECIFIC Articles --------------------------------------
+app.route("/articles/:articleTitle")
+// get method for the article
+    .get((req, res) => {
+
+        Article.findOne({
+            title: req.params.articleTitle}, (err, foundArticle) => {
+               if(foundArticle){
+                res.send(foundArticle);
+               } else{
+                res.send("No articles found matching said title.");
+               }
+
+            });
+    });
 
 // ------------------------HOST--------------------------------------
 // Host port 
