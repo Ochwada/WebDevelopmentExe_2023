@@ -34,35 +34,48 @@ const Article = mongoose.model("Article", articleSchema);
 // ------------------------DISPLAY i.e Get route that fetches all the Articles --------------------------------------
 // Display  --> Server Code
 app.get('/articles', (req, res) => {
-    Article.find( (err, foundArticles) =>{
-        if(!err){
+    Article.find((err, foundArticles) => {
+        if (!err) {
             res.send(foundArticles);
-        }else{
+        } else {
             res.send(err);
         }
-        
+
     });
 });
 
 // Grab data set through  -- Used postman
 app.post('/articles', (req, res) => {
-    console.log( );
-    console.log( );
+    console.log();
+    console.log();
 
-    const newArticle =  new Article({
+    const newArticle = new Article({
         title: req.body.title,
         content: req.body.content
     });
 
     newArticle.save((err) => {
-        if(!err){
+        if (!err) {
             res.send("Successfully added a new article")
-        }else{
+        } else {
             res.send(err);
         }
     });
 });
 
+// Delete request
+
+app.delete("/articles", (req, res) => {
+    Article.deleteMany((err) => {
+        if (!err) {
+            res.send("Successfully deleted all articles")
+        } else {
+            res.send(err)
+        }
+    }
+
+    )
+});
 // ------------------------HOST--------------------------------------
 // Host port 
 const port = process.env.PORT || 3000;

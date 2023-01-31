@@ -1,0 +1,44 @@
+[{
+  "_id": {
+    "$oid": "63d92bfc5c46543e7283e97c"
+  },
+  "title": "Rest",
+  "content": "REST stands for Representational State Transfer. It's a software architectural style for building web services that follow a set of constraints, such as being stateless and using a client-server architecture. RESTful APIs are a popular choice for building modern, scalable web services."
+},{
+  "_id": {
+    "$oid": "63d92e085c46543e7283e985"
+  },
+  "title": "GIS",
+  "content": "GIS stands for Geographic Information System, which is a computer system designed to capture, store, manipulate, analyze, manage, and present all types of geographical data. GIS allows users to create interactive maps and visualizations, and to perform spatial analysis on data. It is used in a variety of industries, including government, urban planning, natural resources, and transportation."
+},{
+  "_id": {
+    "$oid": "63d92e815c46543e7283e986"
+  },
+  "title": "Sales AI",
+  "content": "Sales AI refers to the use of artificial intelligence in sales processes to enhance and automate various tasks, such as lead generation, customer segmentation, sales forecasting, and personalization of sales interactions. The goal of sales AI is to improve sales efficiency and effectiveness, as well as to provide actionable insights and recommendations to sales teams."
+},{
+  "_id": {
+    "$oid": "63d92e915c46543e7283e987"
+  },
+  "title": "Geospatial",
+  "content": "Geospatial refers to the study and use of geographic information and technology to describe and analyze the Earth's physical and cultural features. It encompasses the acquisition, management, analysis, and presentation of geographical data using tools such as maps, satellite imagery, and GIS (Geographic Information System) software. Applications of geospatial technology include urban planning, resource management, transportation, and emergency response."
+},{
+  "_id": {
+    "$oid": "63d92f8e5c46543e7283e989"
+  },
+  "title": "Bootstrap",
+  "content": "Bootstrap is a free front-end framework for faster and easier web development. It includes HTML and CSS based design templates for typography, forms, buttons, navigation and other interface components, as well as optional JavaScript plugins. Bootstrap is used to create responsive and mobile-first websites, and it's widely popular due to its ease of use and customization options."
+},{
+  "_id": {
+    "$oid": "63d92f995c46543e7283e98a"
+  },
+  "title": "Javascript",
+  "content": "JavaScript is a high-level, interpreted programming language that is primarily used to create dynamic, interactive web pages. It is also used in other contexts such as server-side programming, desktop applications, and mobile app development. JavaScript is an object-oriented language and is known for its versatility and ease of use"
+},{
+  "_id": {
+    "$oid": "63d950555f9df7e2917753ca"
+  },
+  "title": "ChatGPT ",
+  "content": "The ChatGPT, popularly as the AI Chatbot, an artificial intelligence (AI) tool released in November 2022, today stands parallel to human intelligence in offering quick solutions akin to experts’ advice in all walks of life. GPT stands for “Generative Pre-trained Transformer”. It is a type of artificial intelligence model that uses deep learning techniques to generate human-like text.",
+  "__v": 0
+}]
