@@ -103,6 +103,19 @@ app.route("/articles/:articleTitle")
                 }
             }
         );
+    })
+    .patch((req, res) => {
+        Article.updateOne(
+            { title: req.params.articleTitle },
+            {$set: req.body},
+            (err) => {
+                if(!err){
+                    res.send("Successfully update")
+                }else{
+                    res.send(err)
+                }
+            }
+            )
     });
 
 // ------------------------HOST--------------------------------------
