@@ -31,13 +31,16 @@ const articleSchema = {
 const Article = mongoose.model("Article", articleSchema);
 
 
-
-
 // ------------------------DISPLAY i.e Get route that fetches all the Articles --------------------------------------
 // Display  --> Server Code
 app.get('/articles', (req, res) => {
     Article.find( (err, foundArticles) =>{
-        res.send(foundArticles)
+        if(!err){
+            res.send(foundArticles);
+        }else{
+            res.send(err);
+        }
+        
     });
 });
 
