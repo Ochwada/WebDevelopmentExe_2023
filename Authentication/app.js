@@ -1,7 +1,13 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const ejs = require('ejs');
+
+
+
+// security
 const encrypt = require('mongoose-encryption');
 
 const app = express();
@@ -33,10 +39,13 @@ const userSchema = new Schema({
 
 // Encription
 // convient method
-const secret = "thisisthesecretcode"; 
+const secretENV = process.env.SECRET;
+
 userSchema.plugin(encrypt, 
+    
     {
-        secret: secret, 
+        
+        secret: secretENV, 
         encryptedFields: ["password"]
     }
     );
