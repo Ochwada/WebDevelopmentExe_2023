@@ -72,18 +72,37 @@ app.route("/articles")
         });
 // ------------------------DISPLAY i.e Get route that fetches SPECIFIC Articles --------------------------------------
 app.route("/articles/:articleTitle")
-// get method for the article
+    // get method for the article
     .get((req, res) => {
 
         Article.findOne({
-            title: req.params.articleTitle}, (err, foundArticle) => {
-               if(foundArticle){
+            title: req.params.articleTitle
+        }, (err, foundArticle) => {
+            if (foundArticle) {
                 res.send(foundArticle);
-               } else{
+            } else {
                 res.send("No articles found matching said title.");
-               }
+            }
+        });
+    })
+    // update an article 
+    .put((req, res) => {
 
-            });
+        Article.updateOne(
+            { title: req.params.articleTitle },
+            {
+                title: req.body.title,
+                content: req.body.content
+            },
+            //{ overwrite: true },
+            (err) => {
+                if (!err) {
+                    res.send("Successfully updated article")
+                } else {
+                    res.send("err")
+                }
+            }
+        );
     });
 
 // ------------------------HOST--------------------------------------
