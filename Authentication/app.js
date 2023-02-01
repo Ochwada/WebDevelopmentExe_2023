@@ -62,8 +62,14 @@ const User = new mongoose.model("User", userSchema); // after encription
 // initialize passport
 passport.use(User.createStrategy());
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+});
+passport.deserializeUser((id, done) => {
+    User.findById(id, (err, user) => {
+        done(err, user);
+    });
+});
 
 // ---- google Authentication -----
 
@@ -72,7 +78,7 @@ passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     callbackURL: "http://localhost:3000/auth/google/secrets",
-    //userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
+    userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
 },
     function (accessToken, refreshToken, profile, cb) {
         User.findOrCreate({ googleId: profile.id }, (err, user) => {
@@ -94,6 +100,17 @@ app.route("/auth/google")
             {
                 scope: ["profile"]
             })
+    );
+
+app.route("/auth/google/secrets")
+    .get(
+        passport.authenticate("google",
+            {
+                failureRedirect: "/login",
+            }), (req, res) => {
+                // successfull login
+                res.redirect("/secrets")
+            }
     );
 
 // routing to login page

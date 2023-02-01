@@ -31,6 +31,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser()); 
 
 // --- setting up the MongoDB --
 mongoose.set("strictQuery", false);
