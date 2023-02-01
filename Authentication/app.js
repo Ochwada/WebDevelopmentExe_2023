@@ -50,7 +50,8 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     email: String,
-    password: String
+    password: String,
+    googleId: String
 });
 // set passportLocalMoogoes 
 userSchema.plugin(passportLocalMongoose);
@@ -59,7 +60,7 @@ userSchema.plugin(findOrCreate);
 
 const User = new mongoose.model("User", userSchema); // after encription
 
-// initialize passport
+// initialize passport 
 passport.use(User.createStrategy());
 
 passport.serializeUser((user, done) => {
@@ -81,9 +82,14 @@ passport.use(new GoogleStrategy({
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
 },
     function (accessToken, refreshToken, profile, cb) {
-        User.findOrCreate({ googleId: profile.id }, (err, user) => {
-            return cb(err, user);
-        });
+
+        console.log(profile);
+
+        User.findOrCreate(
+            { googleId: profile.id },
+            (err, user) => { // find or create
+                return cb(err, user);
+            });
     }
 ));
 
@@ -93,7 +99,7 @@ app.get("/", (req, res) => {
     res.render("home")
 });
 
-// - Routing to auth/google
+// - Routing to auth/google --
 app.route("/auth/google")
     .get(
         passport.authenticate("google",  // using google strategy
@@ -101,7 +107,7 @@ app.route("/auth/google")
                 scope: ["profile"]
             })
     );
-
+// - Routing to auth/google/secrets --
 app.route("/auth/google/secrets")
     .get(
         passport.authenticate("google",
