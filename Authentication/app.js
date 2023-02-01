@@ -4,22 +4,23 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const ejs = require('ejs');
+const md5 = require('md5'); // hashing password
+
 
 
 
 // security
-const encrypt = require('mongoose-encryption');
-
+const encrypt = require('mongoose-encryption'); 
 const app = express();
 
 
+app.use(express.static("public"));
 app.set('view engine', 'ejs');
-
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use(express.static("public"));
+
 
 
 // --- setting up the MongoDB --
@@ -65,7 +66,7 @@ app.route("/login")
     .post((req, res) => {
 
         const username = req.body.username;
-        const password = req.body.password;
+        const password = md5(req.body.password);
 
         User.findOne(
             {email: username}, (err, foundUser) => {
@@ -89,7 +90,7 @@ app.route("/register")
         const newUser = new User(
             {
                 email: req.body.username,
-                password: req.body.password
+                password: md5(req.body.password)
             });
         newUser.save(
             (err) => {
@@ -101,9 +102,6 @@ app.route("/register")
             }
         );
     });
-
-
-
 
 
 
