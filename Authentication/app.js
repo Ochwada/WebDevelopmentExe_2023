@@ -51,7 +51,8 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     email: String,
     password: String,
-    googleId: String
+    googleId: String,
+    secret: String
 });
 // set passportLocalMoogoes 
 userSchema.plugin(passportLocalMongoose);
@@ -83,7 +84,7 @@ passport.use(new GoogleStrategy({
 },
     function (accessToken, refreshToken, profile, cb) {
 
-        console.log(profile);
+        //console.log(profile);
 
         User.findOrCreate(
             { googleId: profile.id },
@@ -118,6 +119,33 @@ app.route("/auth/google/secrets")
                 res.redirect("/secrets")
             }
     );
+// routing for submit 
+
+app.route("/submit")
+    .get((req, res) => {
+        if (req.isAuthenticated()) {
+            res.render("submit")
+        } else {
+            res.redirect("/login")
+        }
+    })
+    .post((req, res) => {
+        const submittedSecret = req.body.secret;
+        console.log(req.user.id);
+
+        User.findById(req.user.id, (err, foundUser) => {
+            if (err) {
+                console.log(err);
+            } else {
+                if (foundUser) {
+                    foundUser.secret = submittedSecret;
+                    foundUser.save(() => {
+                        res.redirect('/secrets')
+                    });
+                }
+            }
+        })
+    });
 
 // routing to login page
 app.route("/login")
@@ -143,11 +171,15 @@ app.route("/login")
 // routing to secrets page 
 app.route("/secrets")
     .get((req, res) => {
-        if (req.isAuthenticated()) {
-            res.render("secrets");
-        } else {
-            res.redirect("/login")
-        }
+        User.find({"secret": {$ne: null}}, (err, foundUsers) => {
+            if (err) {
+                console.log(err);
+            } else {
+                if (foundUsers){
+                    res.render("secrets", {usersWithSecret: foundUsers})
+                }
+            }
+        });
     });
 
 // routing to logout  page  ---

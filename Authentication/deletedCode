@@ -122,6 +122,16 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
+// ----------------
+app.route("/secrets")
+    .get((req, res) => {
+        if (req.isAuthenticated()) {
+            res.render("secrets");
+        } else {
+            res.redirect("/login")
+        }
+    });
+
 
 // -------------------- 
 app.route("/logout")
@@ -129,3 +139,4 @@ app.route("/logout")
         req.logOut();
         res.redirect("/")
     });
+
