@@ -70,18 +70,42 @@ app.route("/login")
         res.render("login")
     })
     .post((req, res) => {
-
-
+        const user = new User({
+            username: req.body.username,
+            password: req.body.password
+        });
+        // use passport to login and autheticate the user
+        req.login(user, (err) => {
+            if (err) {
+                console.log(err)
+            } else {
+                passport.authenticate("local")(req, res, () => {
+                    res.redirect("/secrets");
+                });
+            }
+        })
     });
 // routing to secrets page 
 app.route("/secrets")
     .get((req, res) => {
-        if (req.isAuthenticated()){
+        if (req.isAuthenticated()) {
             res.render("secrets");
-        }else{
+        } else {
             res.redirect("/login")
         }
     });
+
+// routing to logout  page  ---
+// deautheticate the user ---
+
+app.route("/logout")
+    .get((req, res, next) => {
+        req.logout((err) => {
+            if (err) { return next(err); }
+            res.redirect('/');
+        });
+    });
+
 
 // routing to register  page 
 app.route("/register")
